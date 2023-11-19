@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body{
+  margin: 0 0 8px 0;
+  background-color: #B8B8B8;
+}
+
+/*==== Header and Navigation Bar ====*/
+
+header{
+  position: relative;
+  padding: 0rem 2rem;
+  background-color: #e5e5e5;
+}
+
+.link{
+  list-style: none;
+}
+
+.navBtn{
+  text-decoration: none;
+  font-size: 1rem;
+  color: black;
+}
+
+.navBtn:hover{
+  color: gray;
+}
+
+.navbar{
+  width: 100%;
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .logo p{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar .links{
+  display: flex;
+  gap: 3rem;
+}
+
+.navbar .toggle_btn{
+  color: gray;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+}
+
+.action_btn{
+  background-color: gray;
+  color:white;
+  padding: 0.5rem 1rem;
+  border:none;
+  outline: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: scale 0.2 ease;
+}
+
+.action_btn:hover{
+  scale:1.05;
+  color: white;
+}
+
+.action_btn:active{
+  scale:0.95;
+
+}
+
+.dropdown{
+  position: absolute;
+  right: 0.1rem;
+  top: 65px;
+  width: 300px;
+  height: 0;
+  background-color: rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 10px;
+  overflow: hidden;
+  display: none;
+  transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dropdown.open{
+  height: 240px;
+}
+
+.dropdown .link{
+  padding: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown .action_btn{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+/*==== Main Home Section ====*/
+
+.main{
+  margin-top: 20px
+}
+
+.firstRow{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.firstRow > div {
+  width: 45%;
+  margin: 10px;
+  text-align: center;
+  height: 350px;
+}
+
+.pillManagement{
+  background-color: #e5e5e5;
+  padding: 10px;
+  display: flex;
+  flex-flow: column;
+}
+
+.pillManagement>p{
+  margin-bottom: 10px;
+}
+
+.right_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.calendar{
+  height: 70%;
+  background-color: #e5e5e5;
+}
+
+.mood{
+  height: 25%;
+  background-color: #e5e5e5;
+}
+
+.secondRow{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.diary{
+  width: 94%;
+  margin: 10px;
+  text-align: center;
+  height: 600px;
+  background-color: #e5e5e5;
+  padding: 10px;
+  display: flex;
+  flex-flow: column;
+}
+
+.diary>p{
+  margin-bottom: 10px;
+}
+
+/*==== Tabs Styling====*/
+
+.tab button {
+  background-color: inherit;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent, .tabcontent2 {
+  display: none;
+  padding: 20px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+  overflow: scroll;
+  flex-grow: 1;
+}
+
+/*.tabcontent2{
+  height: 87%;
+}*/
+
+/*==== Footer ====*/
+
+footer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.slogan{
+  background-color:#e5e5e5;
+  text-align:center;
+  padding:10px;
+  margin:10px;
+  width: 94%;
+  background-color: #e5e5e5;
+
+}
+
+/*==== Responsive Elements ====*/
+@media(max-width: 900px){
+  .navbar .links, .navbar .action_btn{
+    display: none;
+  }
+
+  .navbar .toggle_btn{
+    display: block;
+  }
+
+  .dropdown{
+    display: block;
+    left: 0.1rem;
+    right: 0.1rem;
+    width: 100%;
+  }
+  .main.open{
+    margin-top: 260px;
+  }
+}
+
+@media(max-width: 620px){
+  .dropdown{
+    left: 0.1rem;
+    right: 0.1rem;
+    width: unset;
+  }
+  .main.open{
+    margin-top: 260px;
+  }
+
+  .firstRow > div{
+    width: 100%;
+  }
+
+  .diary{
+    width: 100%;
+  }
+
+  .slogan{
+    width: 100%;
+  }
+}
+
+
