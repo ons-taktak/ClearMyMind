@@ -69,7 +69,11 @@
 				</div>
 
 				<div id="newEntry" class="tabcontent2">
-					<div>New entries will be made here</div>
+					<form action="JournalEntry/db_connect.php" method="post" style="height: 100%;">
+						<textarea id="title" name="title" style="width: 100%; height: 10%; padding: 10px;" placeholder="Title here"></textarea>
+						<textarea id="main-text-data" name="main-text" style="width: 100%; height: 80%; padding: 10px;" placeholder="Create a new journal!"></textarea>
+						<button type="submit" id="submit-btn">Submit</button>
+					</form>
 				</div>
 
 				<div id="entries" class="tabcontent2">

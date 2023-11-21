@@ -181,6 +181,31 @@ header{
   margin-bottom: 10px;
 }
 
+/*==== Text Area Styles ====*/
+
+/* textarea {
+  text-align: center;
+} */
+
+::-webkit-input-placeholder {
+  text-align: left;
+}
+
+:-moz-placeholder {
+  text-align: left;
+}
+
+#newEntry{
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#submit-btn{
+  height: 8%;
+  width: 8%;
+}
+
 /*==== Tabs Styling====*/
 
 .tab button {
