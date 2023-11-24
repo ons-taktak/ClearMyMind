@@ -25,7 +25,6 @@ else {
     $stmt = $conn->prepare("INSERT INTO entries(title,main_text_data) VALUES (?,?);");
     $stmt->bind_param("ss",$title,$main_text_data);
     $stmt->execute();
-    echo"11111";
     $stmt->close();
     
     

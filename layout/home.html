@@ -77,7 +77,43 @@
 				</div>
 
 				<div id="entries" class="tabcontent2">
-					<div>All entries will be displayed here.</div>
+					<!-- <div class="card">
+						<div class="content">
+							<h2>title</h2>
+							<p>date</p>
+						</div>
+						<div class="journal-text">
+							<p>Lorem ipsum dolor sit amet, consectetur
+							adipiscing elit. Vivamus consectetur tortor arcu, ut ullamcorper
+							massa egestas ut. Maecenas ornare dolor sed ullamcorper laoreet.
+							Duis rhoncus sollicitudin massa, ut elementum eros imperdiet
+							vitae. Donec eget odio eget nisi tincidunt fringilla. Quisque
+							auctor efficitur dui a convallis. Duis nec sem sed lacus
+							tristique pellentesque eget tempus augue. Donec condimentum nec
+							elit fermentum tempus. Phasellus arcu elit, congue lobortis
+							velit non, varius vestibulum nibh. Quisque semper lectus in
+							elementum blandit. Integer commodo tellus ligula, ut cursus
+							magna imperdiet ac. Sed quis sagittis risus.
+			
+							Etiam dignissim augue sed magna viverra faucibus. Vivamus non
+							velit mi. Sed ut porttitor arcu. Curabitur sed diam congue,
+							imperdiet nisl feugiat, iaculis lacus. Duis maximus ornare
+							blandit. Maecenas finibus lacus tellus, vitae congue justo
+							semper vel. Proin aliquet nibh at porttitor gravida.</p>
+						</div>
+					</div>  -->
+
+					<form action="JournalEntry/db_get.php" method="get">
+					
+					</form>
+			
+					<script>
+						const card = document.querySelector('.card');
+						const cardToggle = document.querySelector('.content');
+						cardToggle.onclick = function(){
+							card.classList.toggle('active');
+						}
+					</script>
 				</div>
 			</div>
 		</div>
