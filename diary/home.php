@@ -195,6 +195,8 @@
 						<textarea id="title" name="title" style="width: 100%; height: 10%; padding: 10px;" placeholder="Title here"></textarea>
 						<textarea id="main-text-data" name="content" style="width: 100%; height: 80%; padding: 10px;" placeholder="Create a new journal!"></textarea>
 						<button type="submit" name="submit" id="submit-btn">Submit</button>
+						<button type="reset" id="cancel-btn">Cancel</button>
+
 					</form>
 				</div>
 
@@ -223,35 +225,6 @@
 					    }
 
 					?>
-					<!-- <div class="card">
-						<div class="content">
-							<h2>title</h2>
-							<p>date</p>
-						</div>
-						<div class="journal-text">
-							<p>Lorem ipsum dolor sit amet, consectetur
-							adipiscing elit. Vivamus consectetur tortor arcu, ut ullamcorper
-							massa egestas ut. Maecenas ornare dolor sed ullamcorper laoreet.
-							Duis rhoncus sollicitudin massa, ut elementum eros imperdiet
-							vitae. Donec eget odio eget nisi tincidunt fringilla. Quisque
-							auctor efficitur dui a convallis. Duis nec sem sed lacus
-							tristique pellentesque eget tempus augue. Donec condimentum nec
-							elit fermentum tempus. Phasellus arcu elit, congue lobortis
-							velit non, varius vestibulum nibh. Quisque semper lectus in
-							elementum blandit. Integer commodo tellus ligula, ut cursus
-							magna imperdiet ac. Sed quis sagittis risus.
-			
-							Etiam dignissim augue sed magna viverra faucibus. Vivamus non
-							velit mi. Sed ut porttitor arcu. Curabitur sed diam congue,
-							imperdiet nisl feugiat, iaculis lacus. Duis maximus ornare
-							blandit. Maecenas finibus lacus tellus, vitae congue justo
-							semper vel. Proin aliquet nibh at porttitor gravida.</p>
-						</div>
-					</div>  -->
-
-					<!-- <form action="JournalEntry/db_get.php" method="get">
-					
-					</form> -->
 			
 					<script>
 						const card = document.getElementsByClassName('journal-text');
