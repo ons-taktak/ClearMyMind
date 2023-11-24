@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:#eee;
+  min-height: 90vh; 
+  text-shadow: 0 0 2px #33032a, 0 0 5px 0;
+/*  background-image: url('media/background.jpg');
+  background-size: cover;
+  background-position: center;*/
+  background-color: #B8B8B8;
+  padding-bottom: 50px;
+}
+
+/*==== Header====*/
+header {
+  position: relative;
+  width: 100%;
+  /*background-color: #de6fa1;*/
+  background-color: #e5e5e5;
+  margin-bottom: 50px;
+  padding: 0rem 2rem;
+
+}
+
+.ourLogo{
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ourLogo p{
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  /*color: white;*/
+}
+
+/*==== Main Section ====*/
+.container{
+	width: 100%;
+	max-width: 350px;
+	/*background: #de6fa1;*/
+	background-color: #e5e5e5;
+	border-radius: 10px;
+	box-shadow: 10px 20px 80px gray;
+	/*box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;*/
+	margin: auto;
+	padding: 20px 50px 50px 50px;
+}
+
+label{
+	/*color: white;*/
+	font-size: 2.2rem;
+	justify-content: center;
+	display: flex;
+	transition: .5s ease-in-out;
+	margin-bottom: 50px;
+}
+
+.form-group{
+	width: 80%;
+	height: 40px;
+	background: white;
+	justify-content: center;
+	display: flex;
+	margin: 18px auto;
+	padding: 5px;
+	outline: none;
+	border-radius: 50px;
+
+}
+
+
+.form-control{
+	border: none;
+	border-radius: 50px;
+	font-size: 0.9rem;
+}
+
+
+
+.btn{
+	width: 50%;
+	/*height: 30px;*/
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: white;
+	/*background: #e68fac;*/
+	background-color: #ccc;
+	font-size: 1.2rem;
+	margin-top: 22px;
+	margin-bottom: 12px;
+	border: none;
+	outline: none;
+	border-radius: 10px;
+	transition: .3s ease-in;
+	cursor: pointer;
+}
+
+.btn:hover{
+	background: darkgray;
+}
+
+
+.link p{
+	text-align: center;
+	padding-top: 20px;
+	/*color: white;*/
+}
+
+.link a{
+	color: darkblue;
+}
+
+
+
