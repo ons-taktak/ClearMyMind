@@ -165,8 +165,8 @@
 			<div class="diary">
 				<p>Diary</p>
 				<div class="tab">
-					<button class="tablinks2" onclick="openTab2(event, 'newEntry')" id="defaultOpen2">Add Entry</button>
-					<button class="tablinks2" onclick="openTab2(event, 'entries')">Diary</button>
+					<button class="tablinks2" onclick="openTab2(event, 'entries')" id="defaultOpen2">Diary</button>
+					<button class="tablinks2" onclick="openTab2(event, 'newEntry')">Add Entry</button>
 				</div>
 
 				<div id="newEntry" class="tabcontent2">
@@ -191,7 +191,7 @@
 						}
  
 					?>
-					<form action="home.php" method="post" style="height: 100%;">
+					<form action="home.php#entries" method="post" style="height: 100%;">
 						<textarea id="title" name="title" style="width: 100%; height: 10%; padding: 10px;" placeholder="Title here"></textarea>
 						<textarea id="main-text-data" name="content" style="width: 100%; height: 80%; padding: 10px;" placeholder="Create a new journal!"></textarea>
 						<button type="submit" name="submit" id="submit-btn">Submit</button>
@@ -202,11 +202,8 @@
 
 				<div id="entries" class="tabcontent2">
 					<?php  
-
 						$sql = "SELECT * FROM journalEntries WHERE user_id = " .$_SESSION["user"];
 						$entries = mysqli_query($conn, $sql);
-						// $entries = mysqli_fetch_array($result, MYSQLI_ASSOC);
-						// echo "hi".$entries->num_rows;
 
 						if ($entries->num_rows > 0) {
 					        // Output data of each row
@@ -237,6 +234,7 @@
 						}
 					</script>
 				</div>
+
 			</div>
 		</div>
 	</div>
