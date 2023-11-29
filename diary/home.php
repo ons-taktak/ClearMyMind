@@ -74,11 +74,11 @@
 					<div class="form-popup" id="myForm">
 						<form action="home.php" method="post" style="height: 100%;">
 							<label for="prescName">Prescription Name:</label>
-							<textarea id="prescName" name="prescName" style="width: 100%; height: 10%; padding: 10px;" placeholder="Prescription Name"></textarea>
+							<textarea id="prescName" name="prescName" style="width: 100%; height: 10%; padding: 10px;" placeholder="Prescription Name" maxlength="50" required></textarea>
 							<label for="quantity">Number of Pills:</label>
-  							<input type="number" id="quantity" name="quantity" min="0" max="200">
+  							<input type="number" id="quantity" name="quantity" min="0" max="200" required>
 							<label for="expiryDate">Expiry Date:</label>
-  							<input type="date" id="expiryDate" name="expiryDate">
+  							<input type="date" id="expiryDate" name="expiryDate" required>
 							<button type="submit" name="addPresc" id="submit-btn">Add</button>
 							<button type="reset" id="cancel-btn">Cancel</button>
 
@@ -238,13 +238,14 @@
 						if (isset($_POST["submit"])){
 							$title = $_POST['title'];
 							$content=$_POST['content'];
+							$entryDate=$_POST['entryDate'];
 
 							
-							$sql = "INSERT INTO journalEntries (user_id, title, content) VALUES (?,?,?)";
+							$sql = "INSERT INTO journalEntries (user_id, title, content, entryDate) VALUES (?,?,?,?)";
 							$stmt = mysqli_stmt_init($conn);
 							$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
 							if ($prepareStmt){
-								mysqli_stmt_bind_param($stmt,"sss",$_SESSION["user"],$title,$content);
+								mysqli_stmt_bind_param($stmt,"ssss",$_SESSION["user"],$title,$content,$entryDate);
 								mysqli_stmt_execute($stmt);
 								// echo "<div class='alert alert-success'>Entry Posted Successfully.</div>";
 							}else{
@@ -254,8 +255,11 @@
  
 					?>
 					<form action="home.php#entries" method="post" style="height: 100%;">
-						<textarea id="title" name="title" style="width: 100%; height: 10%; padding: 10px;" placeholder="Title here"></textarea>
-						<textarea id="main-text-data" name="content" style="width: 100%; height: 80%; padding: 10px;" placeholder="Create a new journal!"></textarea>
+						<div class="title-and-date">
+							<textarea id="title" name="title" style="width: 88%; height: 10%; padding: 10px;" placeholder="Title here" maxlength="150" required></textarea>
+							<input type="date" id="entryDate" name="entryDate" style="padding: 10px;" required>
+						</div>
+						<textarea id="main-text-data" name="content" style="width: 100%; height: 80%; padding: 10px;" placeholder="Create a new journal entry!" maxlength="3000" required></textarea>
 						<button type="submit" name="submit" id="submit-btn">Submit</button>
 						<button type="reset" id="cancel-btn">Cancel</button>
 
@@ -273,7 +277,7 @@
 					            echo '<div class="card">
 					            <div class="content">
 					                <h2>' .$row["title"] .'</h2>
-					                <p>date</p>
+					                <p>'.$row["entryDate"].'</p>
 					            </div>
 					            <div class="journal-text">
 					                <p>'.$row["content"].'</p>

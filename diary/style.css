@@ -336,6 +336,11 @@ header{
 }
 
 /*===== display entries===== */
+.title-and-date{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
 
 .tabcontent2{
 	padding: 20px 30px;
