@@ -177,6 +177,28 @@ header{
 .diary>p{
   margin-bottom: 10px;
 }
+/* ==== Prescrtiption section style ==== */
+
+.plusBtnContainer{
+  display: flex;
+  justify-content: right;
+}
+.plusBtn {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  
+}
+
+.form-popup {
+  display: none;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
 
 /* ==== Calendar style ==== */
 

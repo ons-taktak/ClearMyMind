@@ -68,8 +68,70 @@
 				</div>
 
 				<div id="prescs" class="tabcontent">
-					<div>Prescriptions will be here. </br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					<div class="plusBtnContainer">
+						<button class="plusBtn" onclick="toggleForm()"><i class="fa-solid fa-plus"></i></button>
 					</div>
+					<div class="form-popup" id="myForm">
+						<form action="home.php" method="post" style="height: 100%;">
+							<label for="prescName">Prescription Name:</label>
+							<textarea id="prescName" name="prescName" style="width: 100%; height: 10%; padding: 10px;" placeholder="Prescription Name"></textarea>
+							<label for="quantity">Number of Pills:</label>
+  							<input type="number" id="quantity" name="quantity" min="0" max="200">
+							<label for="expiryDate">Expiry Date:</label>
+  							<input type="date" id="expiryDate" name="expiryDate">
+							<button type="submit" name="addPresc" id="submit-btn">Add</button>
+							<button type="reset" id="cancel-btn">Cancel</button>
+
+						</form>
+					</div>
+					<?php 
+						require_once "database.php";
+						if (isset($_POST["addPresc"])){
+							$prescName = $_POST['prescName'];
+							$expiryDate= $_POST['expiryDate'];
+							$quantity = $_POST['quantity'];
+							$expired = 0;
+	
+							
+							$sql = "INSERT INTO activePrescriptions (user_id, prescName, expiryDate, numPills,expired) VALUES (?,?,?,?,?)";
+							$stmt = mysqli_stmt_init($conn);
+							$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
+							if ($prepareStmt){
+								mysqli_stmt_bind_param($stmt,"sssii",$_SESSION["user"],$prescName,$expiryDate,$quantity,$expired);
+								mysqli_stmt_execute($stmt);
+							}else{
+								die("Something went wrong.");
+							}
+
+							
+						}
+					?>
+					<div class="prescriptions"> 
+						<?php  
+							$sql = "SELECT * FROM activePrescriptions WHERE user_id = " .$_SESSION["user"]." ORDER BY id DESC ";
+							$prescriptions = mysqli_query($conn, $sql);
+
+							if ($prescriptions->num_rows > 0) {
+								// Output data of each row
+								while ($row = $prescriptions->fetch_assoc()) {
+									echo '
+									<div class="prescription">
+										<h2>' .$row["prescName"] .'</h2>
+										<p>Expiry date: '.$row["expiryDate"] .'</p>
+										<p>Number of Pills Available: '.$row["numPills"] .'</p>'
+										.($row["expiryDate"] <= date("Y-m-d") ? '<p>Expired</p>' : '')
+									.'</div>';
+									if ($row["expiryDate"] <= date("Y-m-d")){
+										$sql2 = "UPDATE activePrescriptions SET expired= 1 WHERE id= {$row["id"]}";
+										mysqli_query($conn, $sql2);
+									}
+								}
+
+							}
+						?>
+					</div>
+
+					
 				</div>
 
 				<div id="intake" class="tabcontent">
@@ -172,7 +234,7 @@
 				<div id="newEntry" class="tabcontent2">
 
 					<?php
-						require_once "database.php";
+						// require_once "database.php";
 						if (isset($_POST["submit"])){
 							$title = $_POST['title'];
 							$content=$_POST['content'];
@@ -202,7 +264,7 @@
 
 				<div id="entries" class="tabcontent2">
 					<?php  
-						$sql = "SELECT * FROM journalEntries WHERE user_id = " .$_SESSION["user"];
+						$sql = "SELECT * FROM journalEntries WHERE user_id = " .$_SESSION["user"]." ORDER BY id DESC ";
 						$entries = mysqli_query($conn, $sql);
 
 						if ($entries->num_rows > 0) {

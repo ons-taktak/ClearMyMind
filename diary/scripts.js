@@ -53,3 +53,20 @@ function openTab2(evt, tabName) {
 //Click on the tab with the class "defaultOpen" to make it open by default when website is opened
 document.getElementById("defaultOpen").click();
 document.getElementById("defaultOpen2").click();
+
+
+// Function to toggle open and close the + button in the prescription section
+const plusBtn = document.querySelector('.plusBtn')
+const form = document.querySelector('.form-popup')
+
+
+function toggleForm(){
+	form.classList.toggle('openedForm')
+	const isOpen = form.classList.contains('openedForm')
+	if (isOpen){
+		  document.getElementById("myForm").style.display = "block";
+	}
+	else{
+      document.getElementById("myForm").style.display = "none";
+	}
+}
