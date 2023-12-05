@@ -193,12 +193,17 @@ header{
   
 }
 
-.form-popup {
+.form-popup, .form-popup2 {
   display: none;
   border: 3px solid #f1f1f1;
   z-index: 9;
 }
 
+.temp-alert{
+  background-color: #f3d8db;
+  color: #612d31;
+  padding: 10px;
+}
 
 /* ==== Calendar style ==== */
 

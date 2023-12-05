@@ -1,4 +1,3 @@
-const toggleBtn = document.querySelector('.toggle_btn')
 const toggleBtnIcon = document.querySelector('.toggle_btn i')
 const dropdown = document.querySelector('.dropdown')
 
@@ -34,6 +33,7 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " active";
 }
 
+
 // This is the same function again, to control another set of tabs on the page
 function openTab2(evt, tabName) {
   var i, tabcontent, tablinks;
@@ -55,18 +55,46 @@ document.getElementById("defaultOpen").click();
 document.getElementById("defaultOpen2").click();
 
 
-// Function to toggle open and close the + button in the prescription section
-const plusBtn = document.querySelector('.plusBtn')
-const form = document.querySelector('.form-popup')
+// Function to toggle open and close a form using the + button in the pill monitoring section
 
+function toggleForm(className){
+  const form = document.querySelector('.'+className);
 
-function toggleForm(){
 	form.classList.toggle('openedForm')
 	const isOpen = form.classList.contains('openedForm')
+  var forms = document.getElementsByClassName(className);
 	if (isOpen){
-		  document.getElementById("myForm").style.display = "block";
+      for (i = 0; i < forms.length; i++) {
+        forms[i].style.display = "block";
+      }
 	}
 	else{
-      document.getElementById("myForm").style.display = "none";
+      for (i = 0; i < forms.length; i++) {
+        forms[i].style.display = "none";
+      }
 	}
 }
+
+// Function to ask for confirmation before canceling form 
+function confirmCancel(formName) {
+      // Check if any form field has content
+      var formHasContent = Array.from(document.getElementById(formName).elements).some(element => {
+        return element.type !== 'submit' && element.value.trim() !== '';
+      });
+      // If the form has content, show the SweetAlert confirmation dialog
+      if (formHasContent) {
+         Swal.fire({
+          title: 'Are you sure you want to cancel?',
+          text: 'You will lose your entered data.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, cancel.',
+          cancelButtonText: 'No! Don\'t cancel.',
+        }).then((result) => {
+          // If the user clicks OK, reset the form
+          if (result.isConfirmed) {
+            document.getElementById(formName).reset();
+          }
+        });
+      }
+    }

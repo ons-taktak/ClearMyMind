@@ -27,69 +27,62 @@
 	 </header>
 
   <div class="container">
-  	<!-- PHP sign up methods -->
-  	<?php
-		if (isset($_POST["submit"])){
-			$fullName = $_POST["fullname"];
-			$email = $_POST["email"];
-			$password = $_POST["password"];
-			$passwordRepeat = $_POST["repeat_password"];
-
-			$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-			
-			// An array to keep track of any errors in the entry fields
-			$errors = array();
-
-			// if (empty($fullName) OR empty($email) OR empty($password) OR empty($passwordRepeat)){
-			// 	array_push($errors, "All fields are required");
-			// }
-			// if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-			// 	array_push($errors, "Email is not valid");
-			// }
-			if (strlen($password)<8){
-				array_push($errors, "Password must be at least 8 characters long");
-			}
-			if ($password!== $passwordRepeat){
-				array_push($errors, "Passwords do not match");
-			}
-
-			require_once "database.php";
-			// Check if email already exists in datbase
-			// and if it does, add the error to the error array
-			$sql = "SELECT * FROM users WHERE email = '$email' ";
-			$result = mysqli_query($conn, $sql);
-			$rowCount = mysqli_num_rows($result);
-			if ($rowCount>0){
-				array_push($errors, "Email already exists!");
-			}
-
-			// If the errors array is not empty, display the errors to the user
-			if (count($errors)>0){
-				foreach($errors as $error){
-					echo "<div class='alert alert-danger'>$error</div>";
-				}
-
-			}
-			// If there are no errors, save data into database
-			else {
-				
-				$sql = "INSERT INTO users (full_name, email, password) VALUES (?,?,?)";
-				$stmt = mysqli_stmt_init($conn);
-				$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
-				if ($prepareStmt){
-					mysqli_stmt_bind_param($stmt,"sss",$fullName,$email,$passwordHash);
-					mysqli_stmt_execute($stmt);
-					echo "<div class='alert alert-success'>You are registered Successfully.</div>";
-				}else{
-					die("Something went wrong.");
-				}
-				
-			}	
-		}
-
-   ?>
   	<form action="register.php" method="post">
   		<label>Sign up</label>
+
+  		<!-- PHP sign up methods -->
+	  	<?php
+			if (isset($_POST["submit"])){
+				$fullName = $_POST["fullname"];
+				$email = $_POST["email"];
+				$password = $_POST["password"];
+				$passwordRepeat = $_POST["repeat_password"];
+
+				$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+				
+				// An array to keep track of any errors in the entry fields
+				$errors = array();
+
+				if ($password!== $passwordRepeat){
+					array_push($errors, "Passwords do not match");
+				}
+
+				require_once "database.php";
+				// Check if email already exists in datbase
+				// and if it does, add the error to the error array
+				$sql = "SELECT * FROM users WHERE email = '$email' ";
+				$result = mysqli_query($conn, $sql);
+				$rowCount = mysqli_num_rows($result);
+				if ($rowCount>0){
+					array_push($errors, "Email already exists!");
+				}
+
+				// If the errors array is not empty, display the errors to the user
+				if (count($errors)>0){
+					foreach($errors as $error){
+						echo "<div class='alert alert-danger'>$error</div>";
+					}
+
+				}
+				// If there are no errors, save data into database
+				else {
+					
+					$sql = "INSERT INTO users (full_name, email, password) VALUES (?,?,?)";
+					$stmt = mysqli_stmt_init($conn);
+					$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
+					if ($prepareStmt){
+						mysqli_stmt_bind_param($stmt,"sss",$fullName,$email,$passwordHash);
+						mysqli_stmt_execute($stmt);
+						echo "<div class='alert alert-success'>Registered Successfully. You can now log in.</div>";
+					}else{
+						die("Something went wrong.");
+					}
+					
+				}	
+			}
+
+	   ?>
+
   		<div class="form-group">
   			<input class="form-control" type="text" name="fullname" placeholder="Full Name" required="">
   		</div>
@@ -97,11 +90,15 @@
   			<input class="form-control" type="email" name="email" id="" placeholder="Email" required="">
   		</div>
   		<div class="form-group">
-  			<input class="form-control" type="password" name="password" id="" placeholder="Password" required="">
+  			<input class="form-control" type="password" name="password" id="" placeholder="Password" required="" 
+  			pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+  			oninvalid="if (this.value==''){this.setCustomValidity('Please fill out this field.')} else{this.setCustomValidity('Must contain 8 or more characters, at least one number and one uppercase and lowercase letter.')}"  oninput="setCustomValidity('')"
+  			>
   		</div>
   		<div class="form-group">
   			<input class="form-control" type="password" name="repeat_password" id="" placeholder="Confirm Password" required="">
   		</div>
+  		<p style="font-size: 10px; padding: 0 25px;">Password must contain 8 or more characters, at least one number and one uppercase and lowercase letter.</p>
   		<div class="form-btn">
   			<input type="submit" name="submit" value="Sign up" class="btn btn-primary">
   		</div>
@@ -114,7 +111,29 @@
   	
   </div>
 
-	
+	<script> 
+		if ( window.history.replaceState ) {
+	  	window.history.replaceState( null, null, window.location.href );
+		}
+
+		if (document.querySelector('.alert-danger')) {
+		    document.querySelectorAll('.alert-danger').forEach(function($el) {
+		     $el.style.opacity = 1;
+		    setTimeout(() => {
+		      // Apply CSS transition for opacity
+		      $el.style.transition = "opacity 1s";
+
+		      // Set opacity to 0 for a smooth fade out
+		      $el.style.opacity = 0;
+
+		      // After the transition is complete, hide the element
+		      setTimeout(() => {
+		        $el.style.display = "none";
+		      }, 1000); // Adjust the time to match the transition duration
+		    }, 2000);
+		    });
+		}
+	</script>
 
 </body>
 </html>

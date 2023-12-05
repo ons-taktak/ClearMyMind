@@ -1,12 +1,14 @@
-<?php  
-
+<?php 
 	$hostName = "localhost";
 	$dbUser = "root";
 	$dbPassword = "";
 	$dbName = "diary_login";
-	$conn = mysqli_connect($hostName, $dbUser, $dbPassword, $dbName);
-	if (!$conn){
-		die("Something went wrong.");
+	try{
+		$conn = mysqli_connect($hostName, $dbUser, $dbPassword, $dbName);
 	}
-
+	catch(Exception $e){
+		echo "Connection to database failed.<br>".$e->getMessage();
+		die();
+	}
+	
 ?>
