@@ -1,10 +1,10 @@
-function openTab3(evt, tabName) {
+function openTabsettings(evt, tabName) {
   var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent3");
+  tabcontent = document.getElementsByClassName("tabcontentsettings");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-  tablinks = document.getElementsByClassName("tablinks3");
+  tablinks = document.getElementsByClassName("tablinkssettings");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
@@ -13,4 +13,4 @@ function openTab3(evt, tabName) {
 }
 
 
-document.getElementById("defaultOpen3").click();
+document.getElementById("defaultOpensettings").click();

@@ -20,9 +20,13 @@
 
 
 <body>
+	<img src="./media/dec1.png" class="dec1">
+	<img src="./media/dec2.png" class="dec2">
+
+	
 	<header>
 	    <div class="ourLogo">
-	      <p>Clear My Mind</p>
+	     	<p>Clear My Mind</p>
 	    </div>
 	 </header>
 
@@ -60,24 +64,27 @@
 				// If the errors array is not empty, display the errors to the user
 				if (count($errors)>0){
 					foreach($errors as $error){
-						echo "<div class='alert alert-danger'>$error</div>";
+						echo "<div class='alert alert-danger temp'>$error</div>";
 					}
 
 				}
 				// If there are no errors, save data into database
 				else {
+					try{
 					
-					$sql = "INSERT INTO users (full_name, email, password) VALUES (?,?,?)";
-					$stmt = mysqli_stmt_init($conn);
-					$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
-					if ($prepareStmt){
-						mysqli_stmt_bind_param($stmt,"sss",$fullName,$email,$passwordHash);
-						mysqli_stmt_execute($stmt);
-						echo "<div class='alert alert-success'>Registered Successfully. You can now log in.</div>";
-					}else{
-						die("Something went wrong.");
+						$sql = "INSERT INTO users (full_name, email, password) VALUES (?,?,?)";
+						$stmt = mysqli_stmt_init($conn);
+						$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
+						if ($prepareStmt){
+							mysqli_stmt_bind_param($stmt,"sss",$fullName,$email,$passwordHash);
+							mysqli_stmt_execute($stmt);
+							echo "<div class='alert alert-success temp'>Registered Successfully. You can now log in.</div>";
+						}
 					}
-					
+					catch(Exception $e){
+						echo "Something went wrong in the datbase.<br>".$e->getMessage();
+						die();
+					}
 				}	
 			}
 
@@ -98,7 +105,7 @@
   		<div class="form-group">
   			<input class="form-control" type="password" name="repeat_password" id="" placeholder="Confirm Password" required="">
   		</div>
-  		<p style="font-size: 10px; padding: 0 25px;">Password must contain 8 or more characters, at least one number and one uppercase and lowercase letter.</p>
+  		<p style="font-size: 10px; padding: 0 25px;"> Password must have 8 or more characters, at least one number, an uppercase and a lowercase letter</p>
   		<div class="form-btn">
   			<input type="submit" name="submit" value="Sign up" class="btn btn-primary">
   		</div>
@@ -116,8 +123,8 @@
 	  	window.history.replaceState( null, null, window.location.href );
 		}
 
-		if (document.querySelector('.alert-danger')) {
-		    document.querySelectorAll('.alert-danger').forEach(function($el) {
+		if (document.querySelector('.temp')) {
+		    document.querySelectorAll('.temp').forEach(function($el) {
 		     $el.style.opacity = 1;
 		    setTimeout(() => {
 		      // Apply CSS transition for opacity

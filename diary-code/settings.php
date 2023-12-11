@@ -49,16 +49,16 @@
 		</div>
 	</header>
 <!-- ===================================================================== -->
-	<div class="settings">
-		<p>Profile Settings</p>	
-		<div class="tab">
-			<button class="tablinks3" onclick="openTab3(event, 'settings')" id="defaultOpen3">Personal Information</button>
-			<button class="tablinks3" onclick="openTab3(event, 'notifs')">Notification Settings</button>
-		</div>
+	<div class="container">
 
-		<div id="settings" class="tabcontent3">
-			<div class="profile">
-	          <h1>Personal Info</h1>
+    	<div class="tab3">
+          <button class="tablinkssettings" onclick="openTabsettings(event, 'settings')" id="defaultOpensettings">Personal Information</button> 
+          <div class="rtab"><button class="tablinkssettings" onclick="openTabsettings(event, 'notifs')">Notification settings</button></div>
+        </div>
+
+        <div id="settings" class="tabcontentsettings">
+           <div class="profile">
+	          <h1>Personal Information</h1>
 	          <h2>Username</h2>
 	          <p>example01</p>
 	          <h2>Birthday</h2>
@@ -73,27 +73,29 @@
 	          <p>******** <button class="btn">Change</button></p>
 	          <p><button  class="btn2" >Save Changes</button></p>
           </div>
-		</div>
+        </div>
 
-		<div id="notifs" class="tabcontent3">
-			<div class="profile">
-				<h1>Notification settings</h1>
-				<h2>Notification Mode</h2>
-				<p>SMS <button class="btn">update</button></p>          
-				<h2>Pill Intake</h2>
-				<p>5 minutes prior <button class="btn">update</button></p>
-				<h2>Prescriptioin Refills</h2>
-				<p> 2 pills left<button class="btn">update</button></p>          
-				<h2>Appointments</h2>
-				<p>24 hours prior <button class="btn">update</button></p>
-				<h2>Mood Tracking</h2>
-				<p>Daily, 10:00pm <button class="btn">update</button></p>
-				<h2>Journaling</h2>
-				<p>Daily, 06:00pm <button class="btn">update</button></p>
-				<p><button  class="btn2" >Save Changes</button></p>
-        	</div>
-		</div>
-	</div>
+
+        <div id="notifs" class="tabcontentsettings">
+          <div class="profile">
+	          <h1>Notification settings</h1>
+	          <h2>Notification Mode</h2>
+	          <p>SMS <button class="btn">update</button></p>          
+	          <h2>Pill Intake</h2>
+	          <p>5 minutes prior <button class="btn">update</button></p>
+	          <h2>Prescriptioin Refills</h2>
+	          <p> 2 pills left<button class="btn">update</button></p>          
+	          <h2>Appointments</h2>
+	          <p>24 hours prior <button class="btn">update</button></p>
+	          <h2>Mood Tracking</h2>
+	          <p>Daily, 10:00pm <button class="btn">update</button></p>
+	          <h2>Journaling</h2>
+	          <p>Daily, 06:00pm <button class="btn">update</button></p>
+	          <p><button  class="btn2" >Save Changes</button></p>
+
+        </div>
+    </div>
+
 
 	<script src="scripts.js"></script>
 	<script src="scripts2.js"></script>

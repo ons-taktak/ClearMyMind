@@ -56,7 +56,6 @@ document.getElementById("defaultOpen2").click();
 
 
 // Function to toggle open and close a form using the + button in the pill monitoring section
-
 function toggleForm(className){
   const form = document.querySelector('.'+className);
 
@@ -98,3 +97,36 @@ function confirmCancel(formName) {
         });
       }
     }
+
+
+//This part adds conditions to the date fields in the forms
+const today = new Date().toISOString().split('T')[0]; //getting today's date
+document.getElementById('dateTaken').setAttribute('max', today);
+document.getElementById('entryDate').setAttribute('max', today);
+
+
+//Function to delete rows from the database
+function deleteRow(rowId, phpFile) {
+    Swal.fire({
+        title: 'Are you sure you want to delete this entry?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User confirmed deletion
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                // Reload the page or update the container after successful deletion
+                location.reload();
+              }
+            };
+            //refer to a php file that has the query to delete a row from an sql table
+            xhttp.open("GET", phpFile + "?id=" + rowId, true);
+            xhttp.send();
+        }
+    });
+}
+

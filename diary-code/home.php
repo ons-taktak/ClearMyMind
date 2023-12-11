@@ -18,6 +18,7 @@
 	<title>ClearMyMind</title>
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href='https://unpkg.com/css.gg@2.0.0/icons/css/pill.css' rel='stylesheet'>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
@@ -60,11 +61,15 @@
 	</header>
 
 	<div id="home" class="main">
-		<div class="firstRow">
+		<div class="welcome">
+			<img src="./media/title.png" width="60%">
+			<a href="#firstRow" id="welcomeBtn"> Start Now </a>
+			
+		</div>
+		<div class="firstRow" id="firstRow">
 			<div class="pillManagement">
-				<p>Pill Management</p>
 				<div class="tab">
-					<button class="tablinks" onclick="openTab(event, 'intake')" id="defaultOpen">Intake Log</button>
+					<button class="tablinks" onclick="openTab(event, 'intake')" id="defaultOpen">Intake History</button>
 					<button class="tablinks" onclick="openTab(event, 'prescs')">Prescriptions</button>
 				</div>
 
@@ -73,14 +78,14 @@
 							<button id="intakePlusBtn" class="plusBtn" onclick="toggleForm('form-popup2')"><i class="fa-solid fa-plus"></i></button>
 					</div>
 					<div class="form-popup2" id="myForm2">
-						<form action="home.php" method="post" style="height: 100%;" id="intakeForm">
-							<p>Choose a prescription and log how many pills you took. :D</p>
-							<label>Prescription:</label>
+						<h3 style="text-align: center;"> - Log a New Intake - </h3>
+						<form action="home.php#firstRow" method="post" style="height: 100%;" id="intakeForm">
+							<label> Choose a medication to log your intake: </label>
 							<?php
 								require_once "database.php";
 								$sql = "SELECT id, prescName,expired FROM activePrescriptions";
 								$prescs = mysqli_query($conn, $sql);
-								echo "<select name='selectChoice' required> id='selectChoice' ";
+								echo "<select name='selectChoice' class='selectChoice' required> id='selectChoice' ";
 								echo '<option value="" disabled selected>Select your prescription</option>';
 								while ($row = $prescs->fetch_assoc()) {
 								$id = $row['id'];
@@ -96,23 +101,31 @@
 								}
 								echo "</select>";
 							?>	
-
-							<label for="pillsTaken">Number of Pills Taken:</label>
-							<input type="number" id="pillsTaken" name="pillsTaken" min="1" required
-							oninvalid="if (this.value==''){this.setCustomValidity('Please fill out this field.')} 
-							else if(this.value<1){this.setCustomValidity('You have to at least take 1 pill to log an intake.')}"  
-							oninput="setCustomValidity('')">
-							<label for="dateTaken">Date of Intake:</label>
-							<input type="date" id="dateTaken" name="dateTaken" required>
-							<button type="submit" name="addIntake" id="submit-btn" >Add</button>
-							<button type="button"  onclick="confirmCancel('intakeForm')" id="cancel-btn">Cancel</button>
+							<div class="numPdate">
+								<div class="pillsField">
+									<label for="pillsTaken">Number of Pills Taken:</label>
+									<input type="number" id="pillsTaken" name="pillsTaken" min="1" max="200" required
+									oninvalid="if (this.value==''){this.setCustomValidity('Please fill out this field.')} 
+									else if(this.value<1){this.setCustomValidity('You have to at least take 1 pill to log an intake.')}"  
+									oninput="setCustomValidity('')">
+								</div>
+								<div class="dateField">
+									<label for="dateTaken">Date of Intake:</label>
+									<input type="date" id="dateTaken" name="dateTaken" required max="">
+								</div>
+							</div>
+							<div class="addCancel">
+								<button type="submit" name="addIntake" class="submit-btn" >Add</button>
+								<button type="button"  onclick="confirmCancel('intakeForm')" class="cancel-btn">Cancel</button>
+							</div>
 
 						</form>
-					</div>
+					
 					<?php 
 						if (isset($_POST["addIntake"])){
+							//defining variables 
 							$prescId = $_POST['selectChoice'];
-
+							//fetching the corresponding prescription information
 							$sql0 = "SELECT prescName, numPills FROM activePrescriptions WHERE id = " .$prescId;
 							$result0 = mysqli_query($conn,$sql0);
 							$retrievedRow = mysqli_fetch_assoc($result0);
@@ -126,7 +139,7 @@
 							// An array to keep track of any errors in the entry fields
 							$errors = array();
 							if ($pillsTaken > $availablePills){
-								array_push($errors, "The prescription \"".$presc_name."\" you chose only has ".$availablePills." pills available for you to take.");
+								array_push($errors, "The prescription \"".$presc_name."\" you chose only has ".$availablePills." pill(s) available for you to take.");
 							}
 							// If the errors array is not empty, display the errors to the user
 							if (count($errors)>0){
@@ -137,7 +150,7 @@
 							}
 							// If there are no errors, save data into database
 							else {
-							
+								//insert into database
 								$sql = "INSERT INTO intakeLog (user_id, presc_id, presc_name, pillsTaken, dateTaken) VALUES (?,?,?,?,?)";
 								$stmt = mysqli_stmt_init($conn);
 								$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
@@ -147,7 +160,7 @@
 								}else{
 									die("Something went wrong.");
 								}
-
+								//decerement pills or delete prescription from the database
 								$sql2 = "SELECT * FROM activePrescriptions WHERE id = " .$prescId;
 								$result = mysqli_query($conn,$sql2);
 								$rowToUpdate = mysqli_fetch_assoc($result);
@@ -163,8 +176,11 @@
 							}
 						}
 					?>
+
+
+					</div>
 					<div class="historyLog"> 
-						<h3>History Log: </h3>
+						<!-- <h2>History Log: </h2> -->
 						<?php  
 
 							$sql = "SELECT * FROM intakeLog WHERE user_id = " .$_SESSION["user"]." ORDER BY id DESC ";
@@ -174,10 +190,20 @@
 								// Output data of each row
 								while ($row = $logs->fetch_assoc()) {
 									echo '
-									<div class="log">
-										<h2>' .$row["presc_name"] .'</h2>
-										<p>Date of Intake: '.$row["dateTaken"] .'</p>
-										<p>Number of Pills Taken: '.$row["pillsTaken"] .'</p>
+									<div class="intakeContainer">
+										<i class="fa-solid fa-check" style="font-size:20px;"></i>
+										<div class="log">
+											<div class="prescFirstRow">
+												<h3>' .$row["presc_name"] .'</h3>
+												<p>'.$row["dateTaken"] .'</p>
+											</div>
+											
+											<p>Pills Taken: '.$row["pillsTaken"] .'</p>
+
+										</div>
+										<button onclick="deleteRow(' . $row['id'] . ', \'delete_intake.php\')" class="deleteBtn">
+											<i class="fa-regular fa-circle-xmark" style="font-size:25px;"></i> 
+										</button>
 									</div>';
 								}
 							}
@@ -192,16 +218,25 @@
 						<button class="plusBtn" onclick="toggleForm('form-popup')"><i class="fa-solid fa-plus"></i></button>
 					</div>
 					<div class="form-popup" id="myForm">
-						<form action="home.php" method="post" style="height: 100%;" id="prescForm">
+						<h3 style="text-align: center;"> - Add a New Prescription - </h3>
+						<form action="home.php#firstRow" method="post" style="height: 100%;" id="prescForm">
 							<label for="prescName">Prescription Name:</label>
-							<textarea id="prescName" name="prescName" style="width: 100%; height: 10%; padding: 10px;" placeholder="Prescription Name (max: 50 characters)" maxlength="50" required></textarea>
-							<label for="quantity">Number of Pills:</label>
-  							<input type="number" id="quantity" name="quantity" min="1" max="200" required
-  							oninvalid="if (this.value==''){this.setCustomValidity('Please fill out this field.')} else if(this.value<1){this.setCustomValidity('You have to have at least 1 pill to add a prescription.')} else if(this.value>200){this.setCustomValidity('There\'s no known medicine on the market with over 200 pills.')}"  oninput="setCustomValidity('')">
-							<label for="expiryDate">Expiry Date:</label>
-  							<input type="date" id="expiryDate" name="expiryDate" required min="">
-							<button type="submit" name="addPresc" id="submit-btn">Add</button>
-							<button type="button"  onclick="confirmCancel('prescForm')" id="cancel-btn">Cancel</button>
+							<textarea id="prescName" name="prescName" style="width: 100%; height:40px ; padding: 10px;" placeholder="Prescription Name (max: 30 characters)" maxlength="30" required></textarea>
+							<div class="numPdate">
+								<div class="pillsField">
+									<label for="quantity">Number of Pills Available :</label>
+		  							<input type="number" id="quantity" name="quantity" min="1" max="200" required
+		  							oninvalid="if (this.value==''){this.setCustomValidity('Please fill out this field.')} else if(this.value<1){this.setCustomValidity('You have to have at least 1 pill to add a prescription.')} else if(this.value>200){this.setCustomValidity('There\'s no known medicine on the market with over 200 pills.')}"  oninput="setCustomValidity('')">
+		  						</div>
+		  						<div class="dateField">
+									<label for="expiryDate">Expiry Date:</label>
+		  							<input type="date" id="expiryDate" name="expiryDate" required min="">
+		  						</div>
+  							</div>
+							<div class="addCancel">
+								<button type="submit" name="addPresc" class="submit-btn">Add</button>
+								<button type="button"  onclick="confirmCancel('prescForm')" class="cancel-btn">Cancel</button>
+							</div>
 
 						</form>
 					</div>
@@ -235,12 +270,21 @@
 								// Output data of each row
 								while ($row = $prescriptions->fetch_assoc()) {
 									echo '
-									<div class="prescription">
-										<h2>' .$row["prescName"] .'</h2>
-										<p>Expiry date: '.$row["expiryDate"] .'</p>
-										<p>Number of Pills Available: '.$row["numPills"] .'</p>'
-										.($row["expiryDate"] <= date("Y-m-d") ? '<p>Expired</p>' : '')
-									.'</div>';
+									<div class="prescContainer">
+										<div class="pillIcon"> <i class="gg-pill"></i> </div>
+										<div class="prescription">
+											<div class="prescFirstRow">
+												<h3>' .$row["prescName"] .'</h3>'
+												.($row["expiryDate"] <= date("Y-m-d") ? '<p style="color:#b35d5d; padding-top:5px;">Expired!</p>' : '').
+											'</div>
+											<p>Expiry date: '.$row["expiryDate"] .'</p>
+											<p>Pills Available: '.$row["numPills"] .'</p>
+											
+										</div>
+										<button onclick="deleteRow(' . $row['id'] . ', \'delete_presc.php\')" class="deleteBtn">
+											<i class="fa-regular fa-circle-xmark" style="font-size:25px;"></i> 
+										</button>
+									</div>';
 									if ($row["expiryDate"] <= date("Y-m-d")){
 										$sql2 = "UPDATE activePrescriptions SET expired= 1 WHERE id= {$row["id"]}";
 										mysqli_query($conn, $sql2);
@@ -249,9 +293,8 @@
 
 							}
 						?>
-					</div>
 
-					
+					</div>
 				</div>
 
 			</div>
@@ -264,14 +307,13 @@
 					</div>
 					
 					<div id="cal-body">
-						<div>Su</div>
 						<div>Mo</div>
 						<div>Tu</div>
 						<div>We</div>
 						<div>Th</div>
 						<div>Fr</div>
 						<div>Sa</div>
-						<div class="diff-month">26</div>
+						<div>Su</div>
 						<div class="diff-month">27</div>
 						<div class="diff-month">28</div>
 						<div class="diff-month">29</div>
@@ -287,7 +329,7 @@
 						<div>9</div>
 						<div>10</div>
 						<div>11</div>
-						<div>12</div>
+						<div class="today">12</div>
 						<div>13</div>
 						<div>14</div>
 						<div>15</div>
@@ -307,12 +349,12 @@
 						<div>29</div>
 						<div>30</div>
 						<div>31</div>
-						<div class="diff-month">1</div>
+						<!-- <div class="diff-month">1</div>
 						<div class="diff-month">2</div>
 						<div class="diff-month">3</div>
 						<div class="diff-month">4</div>
 						<div class="diff-month">5</div>
-						<div class="diff-month">6</div>
+						<div class="diff-month">6</div> -->
 					</div>
 					<div id="calendar-footer"></div>
 					
@@ -320,19 +362,19 @@
 
 				<div class="mood">
 					<div id="mood-header">
-						<h3> Today's Mood</h3>
+						<h3> How is your mood today ?</h3>
 					</div>
 					<div class="mood-scale">
 						<!-- Number scale starts -->
-						<span><i class="fa-regular fa-face-angry"></i></span>
-						<span><i class="fa-regular fa-face-sad-cry"></i></span> 
-						<span><i class="fa-regular fa-face-sad-tear"></i></span>
-						<span><i class="fa-regular fa-face-frown"></i></span>
-						<span><i class="fa-regular fa-face-meh"></i></span>
-						<span><i class="fa-regular fa-face-smile"></i></span>
-						<span><i class="fa-regular fa-face-smile-beam"></i></span>
-						<span><i class="fa-regular fa-face-laugh"></i></span>
-						<span><i class="fa-regular fa-face-laugh-beam"></i></span>
+						<span><i class="fa-regular fa-face-angry" style="color: #a84540"></i></span>
+						<span><i class="fa-regular fa-face-sad-cry" style="color: #bf6460"></i></span> 
+						<span><i class="fa-regular fa-face-sad-tear" style="color: #c7845d"></i></span>
+						<span><i class="fa-regular fa-face-frown" style="color: #e39f78"></i></span>
+						<span><i class="fa-regular fa-face-meh" style="color: #e6d08e"></i></span>
+						<span><i class="fa-regular fa-face-smile" style="color: #b8d8be"></i></span>
+						<span><i class="fa-regular fa-face-smile-beam" style="color: #a1d4aa"></i></span>
+						<span><i class="fa-regular fa-face-laugh" style="color: #6dad79"></i></span>
+						<span><i class="fa-regular fa-face-laugh-beam" style="color: #579663"></i></span>
 						
 					  </div>
 				</div>
@@ -342,9 +384,8 @@
 
 		<div class="secondRow">
 			<div class="diary">
-				<p>Diary</p>
 				<div class="tab">
-					<button class="tablinks2" onclick="openTab2(event, 'entries')" id="defaultOpen2">Diary</button>
+					<button class="tablinks2" onclick="openTab2(event, 'entries')" id="defaultOpen2">My Diary</button>
 					<button class="tablinks2" onclick="openTab2(event, 'newEntry')">Add Entry</button>
 				</div>
 
@@ -373,17 +414,24 @@
 					?>
 					<form action="home.php#entries" method="post" style="height: 100%;" id="diaryForm">
 						<div class="title-and-date">
-							<textarea id="title" name="title" style="width: 88%; height: 10%; padding: 10px;" placeholder="Title here (max: 150 characters)" maxlength="150" required></textarea>
-							<input type="date" id="entryDate" name="entryDate" style="padding: 10px;" required>
+							<textarea id="title" name="title" style="width: 80%; height: 10%; padding: 10px;" placeholder="Title here (max: 150 characters)" maxlength="150" required></textarea>
+							<input type="date" id="entryDate" name="entryDate" style="padding: 10px; width: 18%;" required>
 						</div>
 						<textarea id="main-text-data" name="content" style="width: 100%; height: 80%; padding: 10px;" placeholder="Create a new journal entry! (max: 10,000 characters)" maxlength="10000" required></textarea>
-						<button type="submit" name="submit" id="submit-btn">Submit</button>
-						<button type="button"  onclick="confirmCancel('diaryForm')" id="cancel-btn">Cancel</button>
+						<div class="addCancel"> 
+							<button type="submit" name="submit" class="submit-btn2">Submit</button>
+							<button type="button"  onclick="confirmCancel('diaryForm')" class="cancel-btn2">Cancel</button>
+						</div>
 
 					</form>
 				</div>
 
 				<div id="entries" class="tabcontent2">
+					<div class="diaryHeader">
+						<img src="./media/diaryHeader.png" width="100%" class="normal">
+						<img src="./media/diaryHeaderSmaller.png" width="100%" class="smaller">
+					</div>
+					
 					<?php  
 						$sql = "SELECT * FROM journalEntries WHERE user_id = " .$_SESSION["user"]." ORDER BY id DESC ";
 						$entries = mysqli_query($conn, $sql);
@@ -394,7 +442,12 @@
 					            echo '<div class="card">
 					            <div class="content">
 					                <h2>' .$row["title"] .'</h2>
-					                <p>'.$row["entryDate"].'</p>
+					                <div>
+					                	<p>'.$row["entryDate"].'</p>
+					                	<button onclick="deleteRow(' . $row['id'] . ', \'delete_entry.php\')" class="deleteBtn2">
+											<i class="fa-regular fa-circle-xmark" style="font-size:25px;"></i> 
+										</button>
+					                </div>
 					            </div>
 					            <div class="journal-text">
 					                <p>'.$row["content"].'</p>
@@ -424,7 +477,7 @@
 
 	<footer>
 		<div class="slogan"> 
-			some lame slogan like : take care of your mental health
+			 EMBRACE CLARITY - EMBRACE CALM - CLEAR YOUR MIND
 		</div>
 	</footer>
 

@@ -18,9 +18,12 @@
 </head>
 <body>
 
+	<img src="./media/dec1.png" class="dec1">
+	<img src="./media/dec2.png" class="dec2">
+
 	<header>
 	    <div class="ourLogo">
-	      <p>Clear My Mind</p>
+	     	<p>Clear My Mind</p>
 	    </div>
 	 </header>
 
